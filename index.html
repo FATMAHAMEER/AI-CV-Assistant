@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="مساعد محلي يقارن نص السيرة الذاتية بالوصف الوظيفي دون رفع البيانات."
+    />
+    <title>ميزان السيرة | تقييم توافق السيرة الذاتية</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#assessment-form">انتقل إلى نموذج التقييم</a>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="ميزان السيرة - الصفحة الرئيسية">
+        <span class="brand-mark" aria-hidden="true">م</span>
+        <span>
+          <strong>ميزان السيرة</strong>
+          <small>تقييم واضح. بياناتك عندك.</small>
+        </span>
+      </a>
+      <span class="local-badge">
+        <span aria-hidden="true">●</span>
+        يعمل محليًا في متصفحك
+      </span>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <p class="eyebrow">مساعد سيرة ذاتية بسيط</p>
+          <h1 id="page-title">اعرف مدى توافق سيرتك مع الوظيفة خلال لحظات</h1>
+          <p class="hero-summary">
+            ألصق سيرتك والوصف الوظيفي لنقارن الكلمات المهمة، ونوضح ما ظهر في
+            سيرتك وما يستحق المراجعة قبل التقديم.
+          </p>
+          <ul class="hero-features" aria-label="مزايا الأداة">
+            <li>تحليل فوري</li>
+            <li>لا رفع للملفات</li>
+            <li>نتيجة سهلة الفهم</li>
+          </ul>
+        </div>
+
+        <aside class="privacy-card" aria-labelledby="privacy-title">
+          <span class="privacy-icon" aria-hidden="true">⌂</span>
+          <div>
+            <h2 id="privacy-title">خصوصيتك أولًا</h2>
+            <p>
+              تتم المقارنة داخل هذه الصفحة فقط. لا نرسل النصوص إلى الشبكة،
+              ولا نحفظها في المتصفح أو في أي سجل.
+            </p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="workspace" aria-labelledby="workspace-title">
+        <div class="section-heading">
+          <div>
+            <p class="step-label">الخطوة الوحيدة</p>
+            <h2 id="workspace-title">أدخل النصين ثم ابدأ التحليل</h2>
+          </div>
+          <button class="button button-secondary" id="load-example" type="button">
+            <span aria-hidden="true">✦</span>
+            تحميل مثال جاهز
+          </button>
+        </div>
+
+        <form id="assessment-form" novalidate>
+          <div class="input-grid">
+            <div class="field-card">
+              <div class="field-heading">
+                <label for="cv-text">نص السيرة الذاتية</label>
+                <span>مطلوب</span>
+              </div>
+              <p class="field-hint" id="cv-hint">
+                ألصق ملخص الخبرات والمهارات والمؤهلات ذات الصلة.
+              </p>
+              <textarea
+                id="cv-text"
+                name="cvText"
+                rows="11"
+                required
+                aria-describedby="cv-hint"
+                placeholder="مثال: محللة أعمال بخبرة في تحليل المتطلبات وإدارة المشاريع..."
+              ></textarea>
+            </div>
+
+            <div class="field-card">
+              <div class="field-heading">
+                <label for="job-text">نص الوصف الوظيفي</label>
+                <span>مطلوب</span>
+              </div>
+              <p class="field-hint" id="job-hint">
+                ألصق المسؤوليات والمتطلبات كما وردت في إعلان الوظيفة.
+              </p>
+              <textarea
+                id="job-text"
+                name="jobText"
+                rows="11"
+                required
+                aria-describedby="job-hint"
+                placeholder="مثال: نبحث عن محلل أعمال يجيد تحليل البيانات وإدارة أصحاب المصلحة..."
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-footer">
+            <p class="error-message" id="form-error" role="alert" hidden tabindex="-1"></p>
+            <button class="button button-primary" id="analyze-button" type="submit">
+              <span aria-hidden="true">↗</span>
+              تحليل التوافق
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section
+        class="results"
+        id="results"
+        aria-labelledby="results-title"
+        aria-live="polite"
+        hidden
+        tabindex="-1"
+      >
+        <div class="results-heading">
+          <div>
+            <p class="step-label">نتيجة التحليل</p>
+            <h2 id="results-title">ملخص التوافق</h2>
+          </div>
+          <p class="result-caption">الدرجة مبنية على الكلمات المهمة في الوصف الوظيفي.</p>
+        </div>
+
+        <div class="result-grid">
+          <article class="score-card">
+            <div
+              class="score-ring"
+              id="score-ring"
+              role="progressbar"
+              aria-label="درجة التوافق"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <strong id="score-value">0</strong>
+              <span>من 100</span>
+            </div>
+            <div>
+              <p class="score-label">درجة التوافق</p>
+              <p class="recommendation" id="recommendation"></p>
+            </div>
+          </article>
+
+          <article class="terms-card matched-card">
+            <div class="terms-heading">
+              <span class="term-icon" aria-hidden="true">✓</span>
+              <div>
+                <h3>كلمات متطابقة</h3>
+                <p>ظهرت في السيرة والوصف الوظيفي</p>
+              </div>
+              <span class="count" id="matched-count" aria-label="عدد الكلمات المتطابقة">0</span>
+            </div>
+            <ul class="term-list" id="matched-terms"></ul>
+          </article>
+
+          <article class="terms-card missing-card">
+            <div class="terms-heading">
+              <span class="term-icon" aria-hidden="true">!</span>
+              <div>
+                <h3>كلمات مفقودة</h3>
+                <p>راجعها وأضف الصحيح منها فقط</p>
+              </div>
+              <span class="count" id="missing-count" aria-label="عدد الكلمات المفقودة">0</span>
+            </div>
+            <ul class="term-list" id="missing-terms"></ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="disclaimer" aria-labelledby="disclaimer-title">
+        <span aria-hidden="true">i</span>
+        <div>
+          <h2 id="disclaimer-title">تنبيه مهم</h2>
+          <p>
+            هذه النتيجة إرشادية وتعتمد على تطابق الكلمات، وليست قرار توظيف أو
+            تقييمًا احترافيًا شاملًا. لا تضف مهارة أو خبرة لا تملكها؛ استخدم
+            الاقتراحات لتحسين الوضوح فقط.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>أداة تعليمية محلية — لا تتصل بخدمات خارجية.</p>
+    </footer>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

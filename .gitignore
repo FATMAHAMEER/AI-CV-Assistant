@@ -1,0 +1,10 @@
+# Never commit local secrets or runtime state.
+.env
+.env.*
+!.env.example
+
+node_modules/
+work/
+*.log
+.DS_Store
+Thumbs.db
