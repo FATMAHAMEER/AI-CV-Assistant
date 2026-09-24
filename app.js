@@ -4,11 +4,15 @@ const form = document.querySelector("#assessment-form");
 const cvInput = document.querySelector("#cv-text");
 const jobInput = document.querySelector("#job-text");
 const loadExampleButton = document.querySelector("#load-example");
+const resetButton = document.querySelector("#reset-form");
 const errorMessage = document.querySelector("#form-error");
 const results = document.querySelector("#results");
 const scoreRing = document.querySelector("#score-ring");
 const scoreValue = document.querySelector("#score-value");
+const scoreLevel = document.querySelector("#score-level");
+const resultSummary = document.querySelector("#result-summary");
 const recommendation = document.querySelector("#recommendation");
+const topSuggestions = document.querySelector("#top-suggestions");
 const matchedTerms = document.querySelector("#matched-terms");
 const missingTerms = document.querySelector("#missing-terms");
 const matchedCount = document.querySelector("#matched-count");
@@ -58,14 +62,56 @@ function renderTerms(container, terms, emptyMessage) {
   container.append(fragment);
 }
 
+function renderSuggestions(suggestions) {
+  topSuggestions.replaceChildren();
+  const priorities = suggestions.slice(0, 3);
+
+  if (priorities.length === 0) {
+    const item = document.createElement("li");
+    item.className = "empty-suggestion";
+    item.textContent = "لا توجد أولوية عاجلة؛ راجع الصياغة النهائية قبل التقديم.";
+    topSuggestions.append(item);
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+  for (const suggestion of priorities) {
+    const item = document.createElement("li");
+    item.textContent = suggestion;
+    fragment.append(item);
+  }
+  topSuggestions.append(fragment);
+}
+
+function fallbackLevel(score) {
+  if (score >= 85) return "ممتاز";
+  if (score >= 65) return "جيد";
+  if (score >= 40) return "متوسط";
+  return "منخفض";
+}
+
+function scoreBand(score) {
+  if (score >= 65) return "strong";
+  if (score >= 40) return "moderate";
+  return "low";
+}
+
 function renderResult(analysis) {
   const score = Math.max(0, Math.min(100, Number(analysis.score) || 0));
   const matched = Array.isArray(analysis.matchedTerms) ? analysis.matchedTerms : [];
   const missing = Array.isArray(analysis.missingTerms) ? analysis.missingTerms : [];
+  const suggestions = Array.isArray(analysis.topSuggestions)
+    ? analysis.topSuggestions.filter((item) => typeof item === "string" && item.trim())
+    : missing.slice(0, 3).map((term) => `أبرز «${term}» إذا كانت ضمن خبرتك الفعلية.`);
+  const level = analysis.level || fallbackLevel(score);
 
   scoreValue.textContent = String(score);
   scoreRing.style.setProperty("--score", `${score}%`);
   scoreRing.setAttribute("aria-valuenow", String(score));
+  scoreRing.setAttribute("aria-valuetext", `${score} من 100، ${level}`);
+  results.dataset.band = scoreBand(score);
+  scoreLevel.textContent = level;
+  resultSummary.textContent = analysis.summary || `توافق ${level} مع متطلبات الإعلان.`;
   recommendation.textContent = analysis.recommendation || "راجع الكلمات المفقودة ذات الصلة بخبرتك.";
   matchedCount.textContent = String(matched.length);
   missingCount.textContent = String(missing.length);
@@ -73,6 +119,7 @@ function renderResult(analysis) {
   missingCount.setAttribute("aria-label", `عدد الكلمات المفقودة: ${missing.length}`);
   renderTerms(matchedTerms, matched, "لم تظهر كلمات متطابقة بعد.");
   renderTerms(missingTerms, missing, "لا توجد كلمات مفقودة — تطابق ممتاز.");
+  renderSuggestions(suggestions);
 
   results.hidden = false;
   results.focus({ preventScroll: true });
@@ -118,6 +165,13 @@ form.addEventListener("submit", (event) => {
 loadExampleButton.addEventListener("click", () => {
   cvInput.value = EXAMPLE.cv;
   jobInput.value = EXAMPLE.job;
+  clearError();
+  results.hidden = true;
+  cvInput.focus();
+});
+
+resetButton.addEventListener("click", () => {
+  form.reset();
   clearError();
   results.hidden = true;
   cvInput.focus();

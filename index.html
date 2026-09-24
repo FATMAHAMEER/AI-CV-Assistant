@@ -61,10 +61,15 @@
             <p class="step-label">الخطوة الوحيدة</p>
             <h2 id="workspace-title">أدخل النصين ثم ابدأ التحليل</h2>
           </div>
-          <button class="button button-secondary" id="load-example" type="button">
-            <span aria-hidden="true">✦</span>
-            تحميل مثال جاهز
-          </button>
+          <div class="workspace-actions" aria-label="إجراءات النموذج">
+            <button class="button button-quiet" id="reset-form" type="button">
+              مسح الكل
+            </button>
+            <button class="button button-secondary" id="load-example" type="button">
+              <span aria-hidden="true">✦</span>
+              تحميل مثال جاهز
+            </button>
+          </div>
         </div>
 
         <form id="assessment-form" novalidate>
@@ -127,12 +132,15 @@
         <div class="results-heading">
           <div>
             <p class="step-label">نتيجة التحليل</p>
-            <h2 id="results-title">ملخص التوافق</h2>
+            <div class="result-title-row">
+              <h2 id="results-title">ملخص التوافق</h2>
+              <span class="level-badge" id="score-level">—</span>
+            </div>
           </div>
           <p class="result-caption">الدرجة مبنية على الكلمات المهمة في الوصف الوظيفي.</p>
         </div>
 
-        <div class="result-grid">
+        <div class="result-overview">
           <article class="score-card">
             <div
               class="score-ring"
@@ -148,10 +156,24 @@
             </div>
             <div>
               <p class="score-label">درجة التوافق</p>
+              <p class="result-summary" id="result-summary"></p>
               <p class="recommendation" id="recommendation"></p>
             </div>
           </article>
 
+          <article class="suggestions-card" aria-labelledby="suggestions-title">
+            <div class="suggestions-heading">
+              <span class="suggestions-icon" aria-hidden="true">✦</span>
+              <div>
+                <p class="step-label">الخطوة التالية</p>
+                <h3 id="suggestions-title">أهم الأولويات</h3>
+              </div>
+            </div>
+            <ol class="suggestion-list" id="top-suggestions"></ol>
+          </article>
+        </div>
+
+        <div class="term-grid">
           <article class="terms-card matched-card">
             <div class="terms-heading">
               <span class="term-icon" aria-hidden="true">✓</span>
